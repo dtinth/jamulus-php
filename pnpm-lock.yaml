@@ -17,6 +17,9 @@ dependencies:
   p-map:
     specifier: ^7.0.0
     version: 7.0.0
+  uuidv7:
+    specifier: ^0.6.3
+    version: 0.6.3
 
 devDependencies:
   '@types/node':
@@ -1803,6 +1806,11 @@ packages:
       is-generator-function: 1.0.10
       is-typed-array: 1.1.12
       which-typed-array: 1.1.13
+    dev: false
+
+  /uuidv7@0.6.3:
+    resolution: {integrity: sha512-zV3eW2NlXTsun/aJ7AixxZjH/byQcH/r3J99MI0dDEkU2cJIBJxhEWUHDTpOaLPRNhebPZoeHuykYREkI9HafA==}
+    hasBin: true
     dev: false
 
   /web-encoding@1.1.5:

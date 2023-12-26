@@ -9,7 +9,8 @@
 		"execa": "^8.0.1",
 		"fastify": "^4.25.2",
 		"minio": "^7.1.3",
-		"p-map": "^7.0.0"
+		"p-map": "^7.0.0",
+		"uuidv7": "^0.6.3"
 	},
 	"type": "module",
 	"scripts": {
