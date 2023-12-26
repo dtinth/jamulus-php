@@ -46,20 +46,20 @@ export async function fetchFromRemote(directory: string) {
 export async function getAllServers() {
   const time = new Date().toISOString();
   return pMap(Object.entries(explorerUrls), async ([genre, server]) => {
-    type Result = { list: any[]; from: "remote" | "local"; error?: string };
+    type Result = { list: any[]; _from: "remote" | "local"; _error?: string };
     const result: Result = await fetchServer(server)
-      .then((x) => ({ list: x, from: "local" as const }))
-      .catch((e) => {
+      .then((x): Result => ({ list: x, _from: "local" as const }))
+      .catch((e): Result => {
         console.error(`Unable to fetch data for server [local] ${server}`, e);
-        return { list: [], from: "local" as const, error: String(e) };
+        return { list: [], _from: "local" as const, _error: String(e) };
       })
       .then((x): Promise<Result> | Result => {
         if (x.list.length > 0) {
           return x;
         }
         return fetchFromRemote(server)
-          .then((y) => ({ ...x, list: y, from: "remote" as const }))
-          .catch((e) => {
+          .then((y): Result => ({ ...x, list: y, _from: "remote" as const }))
+          .catch((e): Result => {
             console.error(
               `Unable to fetch data for server [remote] ${server}`,
               e
@@ -67,8 +67,8 @@ export async function getAllServers() {
             return {
               ...x,
               list: [],
-              from: "remote" as const,
-              error: String(e),
+              _from: "remote" as const,
+              _error: String(e),
             };
           });
       });
