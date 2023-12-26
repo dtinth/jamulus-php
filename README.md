@@ -1,4 +1,5 @@
 # jamulus-php
+
 PHP script to fetch info from Jamulus servers and return as JSON
 
 Used as a back-end by [Jamulus Explorer](https://explorer.jamulus.io) ([github page](https://github.com/softins/jamulus-web))
@@ -28,3 +29,9 @@ To allow this, the `server.php` back-end sets its source port in a specific rang
 22134-22149 (See the defines for `CLIENT_PORT` and `CLIENT_PORTS_TO_TRY`).
 The system hosting the back-end needs to have its firewall configured to accept incoming
 traffic to that specific port range from _any_ IP address and _any_ port number.
+
+```
+docker pull ghcr.io/dtinth/jamulus-server-list-backend:master
+docker tag ghcr.io/dtinth/jamulus-server-list-backend:master asia-southeast1-docker.pkg.dev/$GOOGLE_CLOUD_PROJECT/jamulus-server-list-backend/jamulus-server-list-backend:latest
+docker push asia-southeast1-docker.pkg.dev/$GOOGLE_CLOUD_PROJECT/jamulus-server-list-backend/jamulus-server-list-backend:latest
+```
