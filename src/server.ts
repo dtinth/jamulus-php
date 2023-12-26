@@ -58,14 +58,35 @@ fastify.post("/upload", async function handler(request, reply) {
     key: key,
     size: compressed.length,
     uncompressedSize: buffer.length,
+    stats: result.map((x) => ({
+      time: x.time,
+      genre: x.genre,
+      count: x.list.length,
+    })),
+    history: [] as any[],
   };
+
+  // Get latest.json
+  try {
+    const latest = await client
+      .getObject(env.STORAGE_BUCKET, `${env.STORAGE_NS}/latest.json`)
+      .then((stream) => stream.toArray())
+      .then((buffers) => Buffer.concat(buffers).toString("utf-8"))
+      .then((text) => JSON.parse(text));
+    const previousHistory = latest.history || [];
+    delete latest.history;
+    info.history = [latest, ...previousHistory];
+  } catch (err) {
+    console.error("Unable to process latest data", err);
+  }
+
   await client.putObject(
     env.STORAGE_BUCKET,
     `${env.STORAGE_NS}/latest.json`,
     Buffer.from(JSON.stringify(info), "utf-8"),
     {
       "x-amz-acl": "public-read",
-      "content-type": "application/json; charset=utf-8"
+      "content-type": "application/json; charset=utf-8",
     }
   );
   return info;
