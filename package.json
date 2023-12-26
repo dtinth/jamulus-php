@@ -8,7 +8,8 @@
 	"dependencies": {
 		"execa": "^8.0.1",
 		"fastify": "^4.25.2",
-		"minio": "^7.1.3"
+		"minio": "^7.1.3",
+		"p-map": "^7.0.0"
 	},
 	"type": "module",
 	"scripts": {
