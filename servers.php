@@ -1,5 +1,7 @@
 <?php
 
+define('CACHE_ENABLED', false);
+
 $origins = array(
 	'http://jamulus.softins.co.uk' => 1,
 	'https://jamulus.softins.co.uk' => 1,
@@ -83,13 +85,14 @@ $tmpfile = $cachefile.'.tmp';
 
 function cleanup() {
 	global $tmpfile;
-	if (isset($tmpfile)) {
+	if (CACHE_ENABLED && isset($tmpfile)) {
 		unlink($tmpfile);	// cleanup temp file if we abort with an error
 	}
 }
 
 $start = time();
-for(;;) {
+$tmp = null;
+for(; CACHE_ENABLED;) {
 	// Serve from the cache if it is younger than $cachetime
 	if (file_exists($cachefile) && time() < filemtime($cachefile) + $cachetime) {
 		readfile($cachefile);
@@ -983,7 +986,7 @@ print json_encode($servers, $pretty | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SL
 print "\n";
 
 // cache the contents
-if ($tmp) {
+if ($tmp && CACHE_ENABLED) {
 	fwrite($tmp, ob_get_contents());
 	fclose($tmp);
 	// now move the new data into place atomically
