@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@(-.-)/env':
+    specifier: ^0.3.2
+    version: 0.3.2(zod@3.22.4)
   execa:
     specifier: ^8.0.1
     version: 8.0.1
@@ -20,6 +23,9 @@ dependencies:
   uuidv7:
     specifier: ^0.6.3
     version: 0.6.3
+  zod:
+    specifier: ^3.22.4
+    version: 3.22.4
 
 devDependencies:
   '@types/node':
@@ -36,6 +42,14 @@ devDependencies:
     version: 5.3.3
 
 packages:
+
+  /@(-.-)/env@0.3.2(zod@3.22.4):
+    resolution: {integrity: sha512-7KPrDKsq6ADQdBwEuPMNIVoo89/wKLMeDzaCKqS/cujuj0TW3INB/gw7g0Gz4/I4T/JZkS66p6/mKK97YR/rvw==}
+    peerDependencies:
+      zod: '>=3.0.0'
+    dependencies:
+      zod: 3.22.4
+    dev: false
 
   /@esbuild/aix-ppc64@0.19.10:
     resolution: {integrity: sha512-Q+mk96KJ+FZ30h9fsJl+67IjNJm3x2eX+GBWGmocAKgzp27cowCOOqSdscX80s0SpdFXZnIv/+1xD1EctFx96Q==}
@@ -1894,3 +1908,7 @@ packages:
     resolution: {integrity: sha512-8aAvwVUSHpfEqTQ4w/KMlf3HcRdt50E5ODIQJBw1fQ5RL34xabzxtUlzTXVqc4rkZsPbvrXKWnABCD7kWSmocA==}
     engines: {node: '>= 14'}
     dev: true
+
+  /zod@3.22.4:
+    resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
+    dev: false
