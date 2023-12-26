@@ -38,7 +38,8 @@ fastify.post("/upload", async function handler(request, reply) {
   const id = uuidv7();
   const date = new Date().toISOString().slice(0, 10).replace(/-/g, "/");
   const key = `${env.STORAGE_NS}/${date}/${id}.json.gz`;
-  const data = JSON.stringify(await getAllServers());
+  const result = await getAllServers();
+  const data = JSON.stringify(result);
   const buffer = Buffer.from(data, "utf-8");
   const compressed = zlib.gzipSync(buffer, { level: 9 });
   const client = new Minio.Client({
@@ -48,11 +49,18 @@ fastify.post("/upload", async function handler(request, reply) {
     secretKey: env.STORAGE_SK,
   });
   await client.putObject(env.STORAGE_BUCKET, key, compressed);
-  return {
+
+  const info = {
     key: key,
     size: compressed.length,
     uncompressedSize: buffer.length,
   };
+  await client.putObject(
+    env.STORAGE_BUCKET,
+    `${env.STORAGE_NS}/latest.json`,
+    Buffer.from(JSON.stringify(info), "utf-8")
+  );
+  return info;
 });
 
 await fastify.listen({ port: +process.env.PORT! || 3000, host: "0.0.0.0" });

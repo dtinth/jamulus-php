@@ -19,9 +19,26 @@ export async function fetchServer(directory: string) {
     return JSON.parse(result.stdout);
   } catch (e) {
     console.error(
-      `Unable to parse JSON output when parsing directory: ${directory}`
+      `Unable to parse JSON output when parsing directory [local]: ${directory}`
     );
     console.error(`Received output: ${JSON.stringify(result.stdout)}`);
+    throw e;
+  }
+}
+
+export async function fetchFromRemote(directory: string) {
+  const response = await fetch(
+    "https://explorer.jamulus.io/servers-sf.php?directory=" +
+      encodeURIComponent(directory)
+  );
+  const text = await response.text();
+  try {
+    return JSON.parse(text);
+  } catch (e) {
+    console.error(
+      `Unable to parse JSON output when parsing directory [remote]: ${directory}`
+    );
+    console.error(`Received output: ${JSON.stringify(text)}`);
     throw e;
   }
 }
@@ -29,7 +46,32 @@ export async function fetchServer(directory: string) {
 export async function getAllServers() {
   const time = new Date().toISOString();
   return pMap(Object.entries(explorerUrls), async ([genre, server]) => {
-    const list = await fetchServer(server).catch((e) => []);
-    return { time, list, genre };
+    type Result = { list: any[]; from: "remote" | "local"; error?: string };
+    const result: Result = await fetchServer(server)
+      .then((x) => ({ list: x, from: "local" as const }))
+      .catch((e) => {
+        console.error(`Unable to fetch data for server [local] ${server}`, e);
+        return { list: [], from: "local" as const, error: String(e) };
+      })
+      .then((x): Promise<Result> | Result => {
+        if (x.list.length > 0) {
+          return x;
+        }
+        return fetchFromRemote(server)
+          .then((y) => ({ ...x, list: y, from: "remote" as const }))
+          .catch((e) => {
+            console.error(
+              `Unable to fetch data for server [remote] ${server}`,
+              e
+            );
+            return {
+              ...x,
+              list: [],
+              from: "remote" as const,
+              error: String(e),
+            };
+          });
+      });
+    return { time, genre, ...result };
   });
 }
