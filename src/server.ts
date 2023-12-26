@@ -75,7 +75,7 @@ fastify.post("/upload", async function handler(request, reply) {
       .then((text) => JSON.parse(text));
     const previousHistory = latest.history || [];
     delete latest.history;
-    info.history = [latest, ...previousHistory];
+    info.history = [latest, ...previousHistory].slice(0, 20);
   } catch (err) {
     console.error("Unable to process latest data", err);
   }
