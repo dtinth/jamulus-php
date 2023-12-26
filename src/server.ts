@@ -50,6 +50,8 @@ fastify.post("/upload", async function handler(request, reply) {
   });
   await client.putObject(env.STORAGE_BUCKET, key, compressed, {
     "x-amz-acl": "public-read",
+    "content-type": "application/json; charset=utf-8",
+    "content-encoding": "gzip",
   });
 
   const info = {
@@ -61,7 +63,10 @@ fastify.post("/upload", async function handler(request, reply) {
     env.STORAGE_BUCKET,
     `${env.STORAGE_NS}/latest.json`,
     Buffer.from(JSON.stringify(info), "utf-8"),
-    { "x-amz-acl": "public-read" }
+    {
+      "x-amz-acl": "public-read",
+      "content-type": "application/json; charset=utf-8"
+    }
   );
   return info;
 });
