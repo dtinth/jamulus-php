@@ -15,6 +15,7 @@ const env = Env(
     STORAGE_AK: z.string(),
     STORAGE_SK: z.string(),
     STORAGE_NS: z.string(),
+    WORKER_NAME: z.string().default("unknown"),
   })
 );
 
@@ -25,7 +26,7 @@ fastify.get("/", async function handler(request, reply) {
   }
 
   return {
-    result: await getAllServers(),
+    result: await getAllServers(env.WORKER_NAME),
   };
 });
 
@@ -38,7 +39,7 @@ fastify.post("/upload", async function handler(request, reply) {
   const id = uuidv7();
   const date = new Date().toISOString().slice(0, 10).replace(/-/g, "/");
   const key = `${env.STORAGE_NS}/${date}/${id}.json.gz`;
-  const result = await getAllServers();
+  const result = await getAllServers(env.WORKER_NAME);
   const data = JSON.stringify(result);
   const buffer = Buffer.from(data, "utf-8");
   const compressed = zlib.gzipSync(buffer, { level: 9 });

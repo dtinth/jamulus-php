@@ -43,10 +43,15 @@ export async function fetchFromRemote(directory: string) {
   }
 }
 
-export async function getAllServers() {
+export async function getAllServers(workerName: string) {
   const time = new Date().toISOString();
   return pMap(Object.entries(explorerUrls), async ([genre, server]) => {
-    type Result = { list: any[]; _from: "remote" | "local"; _error?: string };
+    type Result = {
+      list: any[];
+      _from: "remote" | "local";
+      _remoteName?: string;
+      _error?: string;
+    };
     const result: Result = await fetchServer(server)
       .then((x): Result => ({ list: x, _from: "local" as const }))
       .catch((e): Result => {
@@ -57,8 +62,11 @@ export async function getAllServers() {
         if (x.list.length > 0) {
           return x;
         }
+        const _remoteName = "explorer-sf";
         return fetchFromRemote(server)
-          .then((y): Result => ({ ...x, list: y, _from: "remote" as const }))
+          .then(
+            (y): Result => ({ ...x, list: y, _from: "remote", _remoteName })
+          )
           .catch((e): Result => {
             console.error(
               `Unable to fetch data for server [remote] ${server}`,
@@ -68,10 +76,16 @@ export async function getAllServers() {
               ...x,
               list: [],
               _from: "remote" as const,
+              _remoteName,
               _error: String(e),
             };
           });
       });
-    return { time, genre, ...result };
+    return {
+      time,
+      genre,
+      ...result,
+      _workerName: workerName,
+    };
   });
 }
