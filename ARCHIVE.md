@@ -14,7 +14,7 @@ Every few minutes, a snapshot is taken of the following directories:
 
 There are 3 main ways to access the data:
 
-- **Latest snapshots:** Provides access to last 20 snapshots. Useful for real-time visualizations.
+- **Latest snapshots:** Provides access to last 20 snapshots. Useful for real-time visualizations. [Jamulus servers in Thailand](https://mjth.live/servers/) page uses this information to generate a live list of servers in Thailand.
 - **Historical snapshots:** Provides updates to daily archive of snapshots since 2023-08-01. Updated daily. Can be useful for historical analysis. For example, I used this data to generate [a report of most active Jamulus user names in 2023](https://im.dt.in.th/ipfs/bafybeibb5ktv7g66ieffqdqkml4jsrzoko2seeoi2tr3kibv65qoduizky/2023.webp) for the [MJTH.live](https://mjth.live/) server.
 - **Google BigQuery:** The [Jamulus Usage Public Dataset](https://github.com/dtinth/jamulus-archive) project takes the data from this system and makes it queryable via Google BigQuery.
 
