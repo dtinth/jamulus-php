@@ -20,7 +20,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Install s3cmd
-        run: pip install s3cmd --break-system-packages
+        run: pip install s3cmd --break-system-packages || pip install s3cmd
       - name: Consolidate
         run: pnpm tsx src/scripts/consolidate.ts
         env:
