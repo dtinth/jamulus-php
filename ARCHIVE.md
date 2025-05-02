@@ -67,8 +67,7 @@ const dailyUrl = `https://jamulus-archive.ap-south-1.linodeobjects.com/main/dail
 ```
 
 - The first available daily archive file is on **2023-08-01**.
-- A compressed file is about **300 KB** large.
-- When decompressed, it is about **38 MB** large.
+- Check out the stats about the latest daily archive file in the [ARCHIVE_STATS.md](ARCHIVE_STATS.md) file.
 - Daily archival process is scheduled daily at 5 AM (UTC). The consolidation process may take a few minutes, so the file may not be available immediately. It runs on GitHub Actions, so if it has an outage, the file may not be available at all. It will be retried the next day.
 - The daily archive file is a newline-delimited JSON file, compressed with Brotli compression. Each line is a `DataPoint` object (see section below for schema).
 

@@ -29,3 +29,16 @@ jobs:
           STORAGE_ENDPOINT: ap-south-1.linodeobjects.com
           STORAGE_BUCKET: jamulus-archive
           STORAGE_NS: main
+      - name: Generate Archive Stats
+        run: pnpm tsx src/scripts/generateArchiveStats.ts
+        env:
+          STORAGE_ENDPOINT: ap-south-1.linodeobjects.com
+          STORAGE_BUCKET: jamulus-archive
+          STORAGE_NS: main
+      - name: Commit Archive Stats
+        run: |
+          git config --local user.email "dtinth-bot@users.noreply.github.com"
+          git config --local user.name "dtinth-bot"
+          git add ARCHIVE_STATS.md
+          git diff --staged --quiet || git commit -m "Update ARCHIVE_STATS.md"
+          git push
