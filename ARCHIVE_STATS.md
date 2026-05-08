@@ -1,13 +1,13 @@
 # Jamulus Server List Archive Statistics
 
-The archive contains 1010 daily snapshots since 2023-08-01.
+The archive contains 1011 daily snapshots since 2023-08-01.
 
 ## Latest Daily Snapshot
 
-- **Date**: 2026-05-06
-- **URL**: [daily/2026-05/2026-05-06.ndjson.br](https://jamulus-archive.ap-south-1.linodeobjects.com/main/daily/2026-05/2026-05-06.ndjson.br)
-- **Compressed Size**: 196.50 KB (201,214 bytes)
-- **Uncompressed Size**: 22.31 MB (23,393,821 bytes)
+- **Date**: 2026-05-07
+- **URL**: [daily/2026-05/2026-05-07.ndjson.br](https://jamulus-archive.ap-south-1.linodeobjects.com/main/daily/2026-05/2026-05-07.ndjson.br)
+- **Compressed Size**: 195.02 KB (199,696 bytes)
+- **Uncompressed Size**: 22.40 MB (23,489,440 bytes)
 
 ---
 
